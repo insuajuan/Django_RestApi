@@ -10,6 +10,9 @@ Para crear una app:
 Cada vez que creo una app, voy a la carpeta del proyecto, 
 y dentro de settings.py agrego el nombre de la app al listado "INSTALLED APPS"
 
+Run server:
+python manage.py runserver 8000 (por defecto es 8000 si no declaro el puerto)
+
 /////////////////////////
 URL PATTERNS
 Dentro de la carpeta de la app, creo un archivo "urls.py" y defino las rutas y lo que van a mostrar.
@@ -23,6 +26,7 @@ urlpatterns = [
 ////////////////////////
 VIEWS
 Creo funciones para lo que se va a mostrar/responder en la url
+Por ejemplo manejo el request y en base al query busco el dato en la base de datos
 
 ///////////////////////
 MODELS
@@ -45,7 +49,39 @@ Una vez que se abre la terminal, importamos el modelo de la DB a modificar y cre
 >> from products.models import Product
 >> Product.objects.create(title='Hello World', content='this is amazing', price=0.00)
 
+//////////////////////////////
 
+SERIALIZERS
+Utilizamos la libreria rest_framework
+
+Creamos un archivo "serializers.py" dentro de la app products en este caso. Definimos nuestro modelo
+
+from rest_framework import serializers
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = [
+            'title',
+            'content',
+            'price'
+        ]
+
+En views.py, vamos a utilizar serializer para dar respuesta e interactuar con la DB
+is_valid y raise_exception se encargan de validar q se manden campos obligatorios en la req, 
+y sino genera la excepcion aclarando.
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from products.serializers import ProductSerializer
+
+@api_view(['POST'])
+def api_home(req, *args, **kwargs):
+    serializer = ProductSerializer(data=req.data)
+    # Validate if it matches the serialized Model (in serializers.py)
+    if serializer.is_valid(raise_exception=True):
+        instance = serializer.save()
+        print(instance)
+        return Response(serializer.data) 
 
 
 

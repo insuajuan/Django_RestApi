@@ -14,6 +14,22 @@ Run server:
 python manage.py runserver 8000 (por defecto es 8000 si no declaro el puerto)
 
 /////////////////////////
+ADMIN
+
+>> python manage.py createsuperuser
+
+Creo mi usuario y contraseña y me logue en mi puerto/admin/login
+
+Para darle acceso a la vista de los distintos modelos que creemos, 
+tenemos que ir a la carpeta de la app, y al archivo admin.py
+
+from django.contrib import admin
+from .models import Product
+
+admin.site.register(Product)
+
+/////////////////////////
+
 URL PATTERNS
 Dentro de la carpeta de la app, creo un archivo "urls.py" y defino las rutas y lo que van a mostrar.
 Lo mismo hago dentro de la carpeta del proyecto. Agrego la ruta a la app
@@ -84,6 +100,26 @@ def api_home(req, *args, **kwargs):
         return Response(serializer.data) 
 
 
+/////////////////////////
+AUTHENTICATION
+https://www.django-rest-framework.org/api-guide/authentication/
+
+Podemos agregar a nuestras clases en views.py lo siguiente, para que haya autenticacion
+
+from rest_framework import permissions, authentication
+
+permission_classes = [permissions.IsAuthenticated]
+authentication_classes = [authentication.SessionAuthentication] 
+
+or we can asses the permisions given 
+permission_classes = [permissions.DjangoModelPermissions]
+
+/////////////////////////
+TOKEN AUTHENTICATION
+
+Tenemos que agregar al listado de "installed Apps" en settings.py del Proyecto: rest_framework.authtoken
+
+/////////////////////////
 
 
 '''

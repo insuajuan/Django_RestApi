@@ -118,8 +118,23 @@ permission_classes = [permissions.DjangoModelPermissions]
 TOKEN AUTHENTICATION
 
 Tenemos que agregar al listado de "installed Apps" en settings.py del Proyecto: rest_framework.authtoken
+Luego hacemos un migrate para que se guarden los cambios
+>> python manage.py migrate
+
+If we then log in as the superadmin we will see the menu for handling access tokens
 
 /////////////////////////
+
+REACT IN DJANGO:
+guardo la carpeta frontend dentro de la q aloja django, y hago:
+>> npm run build
+
+Tengo que ademas agregar en settings.py del Proyecto lo siguiente:
+
+En "Templates" agregar: 'DIRS': [BASE_DIR / 'frontend/build']
+
+Debajo de "Static_Url" agrego una nueva linea que sea: "STATICFILES_DIRS = [BASE_DIR / 'frontend/build/static']
+
 
 
 '''

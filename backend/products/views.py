@@ -10,7 +10,10 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = [permissions.DjangoModelPermissions]
-    authentication_classes = [authentication.SessionAuthentication] 
+    authentication_classes = [
+        authentication.SessionAuthentication,
+        authentication.TokenAuthentication
+    ] 
 
     def perform_create(self, serializer):
         # serializer.save(user=self.request.user)

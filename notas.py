@@ -123,6 +123,31 @@ Luego hacemos un migrate para que se guarden los cambios
 
 If we then log in as the superadmin we will see the menu for handling access tokens
 
+Una vez asignados los tokens, puedo agregar el middleware en urls.py de nuestra api:
+
+from rest_framework.authtoken.views import obtain_auth_token
+
+path('auth/', obtain_auth_token)
+
+Luego vamos a views.py y asignamos a nuestras vistas que queramos proteger:
+authentication_classes = [
+        authentication.SessionAuthentication,
+        authentication.TokenAuthentication
+    ] 
+
+Si ahora hacemos un request a la ruta /auth de la api y le proveemos nuestro usuario y pass, nos va a devolver un token
+
+/////////////////////////
+Libreria de JWT:
+https://github.com/davesque/django-rest-framework-simplejwt
+
+/////////////////////////
+CORS Allow origins:
+
+to allow access from localhost
+https://pypi.org/project/django-cors-headers/
+
+
 /////////////////////////
 
 REACT IN DJANGO:
@@ -136,5 +161,5 @@ En "Templates" agregar: 'DIRS': [BASE_DIR / 'frontend/build']
 Debajo de "Static_Url" agrego una nueva linea que sea: "STATICFILES_DIRS = [BASE_DIR / 'frontend/build/static']
 
 
-
+/////////////////////////
 '''
